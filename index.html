@@ -30,10 +30,10 @@
   }
   .tavola{
     position:relative;width:100%;max-width:680px;margin:0 auto;
-    --pad:40px;                          /* padding laterale; il banner vi si aggancia */
+    --pad:40px;                          /* applicato ai blocchi interni, non al bordo tavola */
     background:radial-gradient(120% 90% at 50% 20%, #F8F1DD 0%, var(--pergamena) 50%, var(--pergamena-scuro) 100%);
     border:1px solid #d8c79c;border-radius:6px;
-    padding:0 var(--pad) 48px;
+    padding:0 0 48px;                    /* nessun padding laterale: il banner riempie i bordi */
     box-shadow:0 24px 60px rgba(0,0,0,.45), 0 2px 0 rgba(255,255,255,.4) inset;
     overflow:hidden;
   }
@@ -43,11 +43,12 @@
     mix-blend-mode:multiply;pointer-events:none;opacity:.55;
   }
   .tavola>*{position:relative;z-index:1}
+  /* I contenuti (non il banner) ricevono il padding laterale */
+  .titolo-albo,.albo,.riepilogo,.firma{padding-left:var(--pad);padding-right:var(--pad)}
 
-  /* ---- TOPBAR: banner edge-to-edge ---- */
+  /* ---- TOPBAR: banner a tutta larghezza ---- */
   .banner{
-    display:block;width:calc(100% + var(--pad) * 2);
-    margin:0 calc(var(--pad) * -1) 0;
+    display:block;width:100%;margin:0;
     border-bottom:3px solid var(--oro);
     box-shadow:0 6px 14px rgba(0,0,0,.3);
     /* punto focale dell'inquadratura su mobile: regola questo valore
@@ -56,20 +57,11 @@
   }
   .banner img{display:block;width:100%;height:auto;object-fit:cover;object-position:var(--banner-focus) center}
 
-  /* Su schermi stretti il banner panoramico verrebbe schiacciato:
-     lo ritagliamo ad altezza fissa e centriamo l'inquadratura sul soggetto. */
+  /* Su schermi stretti: banner ritagliato e padding ridotto.
+     Il layout a colonna unica è già il default per tutte le viewport. */
   @media (max-width:600px){
     .banner img{height:clamp(120px,32vw,180px)}
     .tavola{--pad:18px}
-    /* Anno sopra, fascia a tutta larghezza sotto: nessun affiancamento,
-       quindi nessun overflow orizzontale possibile. */
-    .albo{gap:18px}
-    .riga{display:flex;flex-direction:column;align-items:stretch;gap:6px}
-    .anno{font-size:22px;padding-left:2px}
-    .casa{
-      width:100%;font-size:clamp(18px,5.4vw,26px);padding:9px 10px;
-      transform:none;opacity:1;animation:none;   /* niente translateX che sporgerebbe */
-    }
   }
 
   /* ---- Titolo Albo ---- */
@@ -88,19 +80,25 @@
   .titolo-albo .fregio i:last-child{background:linear-gradient(90deg,var(--oro),transparent)}
   .titolo-albo .fregio svg{width:16px;height:16px;fill:var(--oro)}
 
-  /* ---- Righe albo ---- */
-  .albo{display:flex;flex-direction:column;gap:14px}
-  .riga{display:grid;grid-template-columns:minmax(150px,auto) 1fr;align-items:center;gap:18px}
+  /* ---- Righe albo: colonna unica centrata ---- */
+  .albo{display:flex;flex-direction:column;gap:22px;align-items:center}
+  .riga{
+    display:flex;flex-direction:column;align-items:center;gap:5px;
+    width:min(440px,100%);
+  }
   .anno{
-    font-family:"Cinzel",serif;font-weight:500;font-size:clamp(20px,5.2vw,30px);
-    color:#1c1710;white-space:nowrap;letter-spacing:.02em;
+    font-family:"Cinzel",serif;font-weight:600;
+    font-size:clamp(14px,3.6vw,17px);letter-spacing:.14em;
+    color:#6a5526;text-align:center;
   }
   .casa{
-    font-family:"Cinzel",serif;font-weight:700;font-size:clamp(20px,5vw,30px);
-    letter-spacing:.04em;color:#fff;text-align:center;padding:6px 14px;border-radius:3px;
+    width:100%;
+    font-family:"Cinzel",serif;font-weight:700;font-size:clamp(20px,5.4vw,28px);
+    letter-spacing:.04em;color:#fff;text-align:center;padding:9px 12px;border-radius:3px;
+    overflow-wrap:anywhere;min-width:0;
     box-shadow:0 3px 7px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.25);
     text-shadow:0 1px 2px rgba(0,0,0,.35);
-    opacity:0;transform:translateX(14px);animation:entra .5s ease forwards;
+    opacity:0;transform:translateY(8px);animation:entra .5s ease forwards;
   }
   @keyframes entra{to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){.casa{animation:none;opacity:1;transform:none}}
