@@ -49,8 +49,17 @@
     margin:0 -40px 0;
     border-bottom:3px solid var(--oro);
     box-shadow:0 6px 14px rgba(0,0,0,.3);
+    /* punto focale dell'inquadratura su mobile: regola questo valore
+       (0% = tutto a sinistra, 100% = tutto a destra) */
+    --banner-focus:58%;
   }
-  .banner img{display:block;width:100%;height:auto}
+  .banner img{display:block;width:100%;height:auto;object-fit:cover;object-position:var(--banner-focus) center}
+
+  /* Su schermi stretti il banner panoramico verrebbe schiacciato:
+     lo ritagliamo ad altezza fissa e centriamo l'inquadratura sul soggetto. */
+  @media (max-width:560px){
+    .banner img{height:clamp(120px,32vw,180px)}
+  }
 
   /* ---- Titolo Albo ---- */
   .titolo-albo{
