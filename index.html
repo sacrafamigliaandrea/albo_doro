@@ -25,14 +25,15 @@
     font-family:"EB Garamond",Georgia,serif;
     color:var(--inchiostro);
     -webkit-font-smoothing:antialiased;
-    display:flex;justify-content:center;
     padding:32px 16px;min-height:100vh;
+    overflow-x:hidden;
   }
   .tavola{
-    position:relative;width:100%;max-width:680px;
+    position:relative;width:100%;max-width:680px;margin:0 auto;
+    --pad:40px;                          /* padding laterale; il banner vi si aggancia */
     background:radial-gradient(120% 90% at 50% 20%, #F8F1DD 0%, var(--pergamena) 50%, var(--pergamena-scuro) 100%);
     border:1px solid #d8c79c;border-radius:6px;
-    padding:0 40px 48px;
+    padding:0 var(--pad) 48px;
     box-shadow:0 24px 60px rgba(0,0,0,.45), 0 2px 0 rgba(255,255,255,.4) inset;
     overflow:hidden;
   }
@@ -45,8 +46,8 @@
 
   /* ---- TOPBAR: banner edge-to-edge ---- */
   .banner{
-    display:block;width:calc(100% + 80px);
-    margin:0 -40px 0;
+    display:block;width:calc(100% + var(--pad) * 2);
+    margin:0 calc(var(--pad) * -1) 0;
     border-bottom:3px solid var(--oro);
     box-shadow:0 6px 14px rgba(0,0,0,.3);
     /* punto focale dell'inquadratura su mobile: regola questo valore
@@ -59,6 +60,10 @@
      lo ritagliamo ad altezza fissa e centriamo l'inquadratura sul soggetto. */
   @media (max-width:560px){
     .banner img{height:clamp(120px,32vw,180px)}
+    .tavola{--pad:16px}
+    .riga{gap:10px;grid-template-columns:auto 1fr}
+    .anno{font-size:clamp(16px,4.8vw,30px)}
+    .casa{font-size:clamp(16px,4.6vw,30px);padding:6px 8px}
   }
 
   /* ---- Titolo Albo ---- */
