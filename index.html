@@ -58,12 +58,18 @@
 
   /* Su schermi stretti il banner panoramico verrebbe schiacciato:
      lo ritagliamo ad altezza fissa e centriamo l'inquadratura sul soggetto. */
-  @media (max-width:560px){
+  @media (max-width:600px){
     .banner img{height:clamp(120px,32vw,180px)}
-    .tavola{--pad:16px}
-    .riga{gap:10px;grid-template-columns:auto 1fr}
-    .anno{font-size:clamp(16px,4.8vw,30px)}
-    .casa{font-size:clamp(16px,4.6vw,30px);padding:6px 8px}
+    .tavola{--pad:18px}
+    /* Anno sopra, fascia a tutta larghezza sotto: nessun affiancamento,
+       quindi nessun overflow orizzontale possibile. */
+    .albo{gap:18px}
+    .riga{display:flex;flex-direction:column;align-items:stretch;gap:6px}
+    .anno{font-size:22px;padding-left:2px}
+    .casa{
+      width:100%;font-size:clamp(18px,5.4vw,26px);padding:9px 10px;
+      transform:none;opacity:1;animation:none;   /* niente translateX che sporgerebbe */
+    }
   }
 
   /* ---- Titolo Albo ---- */
@@ -103,7 +109,7 @@
   .banner{position:relative}            /* contenitore di riferimento per il player */
   .mini-video{
     position:absolute;top:10px;right:10px;z-index:3;
-    width:128px;                        /* dimensione fissa: niente resize/fullscreen */
+    width:clamp(82px,24vw,120px);        /* sempre piccolo, niente resize/fullscreen */
     background:rgba(12,12,12,.92);
     border:2px solid var(--oro);border-radius:6px;
     box-shadow:0 6px 16px rgba(0,0,0,.5);
